@@ -1,25 +1,14 @@
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -Werror -g
-LDFLAGS = -lpqxx -lpq
-
-SRCS = main.cpp query_funcs.cpp
-OBJS = $(SRCS:.cpp=.o)
-DEPS = $(SRCS:.cpp=.d)
-
-.PHONY: all clean
+CC=g++
+CFLAGS=-O3
+EXTRAFLAGS=-lpqxx -lpq
 
 all: test
 
-test: $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
-
--include $(DEPS)
-
-%.d: %.cpp
-	$(CXX) $(CXXFLAGS) -MM -MT '$(<:.cpp=.o) $@' $< > $@
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+test: main.cpp exerciser.h exerciser.cpp query_funcs.h query_funcs.cpp
+	$(CC) $(CFLAGS) -o test main.cpp exerciser.cpp query_funcs.cpp $(EXTRAFLAGS)
 
 clean:
-	rm -f *~ *.o test $(OBJS) $(DEPS)
+	rm -f *~ *.o test
+
+clobber:
+	rm -f *~ *.o

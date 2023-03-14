@@ -25,4 +25,3 @@ Once the database is installed, you can use the following functions to interact 
 * query5(): show first name and last name of each player, and team name and number of wins for each team that has won more than the indicated number of games.
 
 To use these functions, add calls to them in the exerciser() function in exerciser.cpp. The program will execute the queries and print the results to the console.
-
