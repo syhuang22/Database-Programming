@@ -25,7 +25,7 @@ void exercise(connection *C) {
     // Query 4
     cout << "Executing Query 4: " << endl;
     cout << "==============================================" << endl;
-    query4(C, "NC", "DarkBlue");
+    query4(C, "NC", "Red");
     cout << "==============================================" << endl;
     cout << endl;
 

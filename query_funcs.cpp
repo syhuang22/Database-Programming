@@ -255,7 +255,7 @@ void query5(connection *C, int num_wins) {
         result R(N.exec(sql));
 
         // Print out result
-        cout << "FIRST_NAME LAST_NAME TEAM_NAME WINS" << endl;
+        cout << "FIRST_NAME LAST_NAME NAME WINS" << endl;
         for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
             cout << c[0].as<string>() << " " 
                  << c[1].as<string>() << " "
