@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import joinedload
-from acc_bball.models import Team, Player, State, Color
+from acc_bball import Team, Player, State, Color
 
 def query1(conn,
            use_mpg, min_mpg, max_mpg,
