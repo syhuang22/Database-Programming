@@ -37,9 +37,9 @@ def query1(conn,
         results = query.all()
 
         # Print out result
-        print("PLAYER_ID TEAM_ID JERSEY_NUM LAST_NAME FIRST_NAME MPG PPG RPG APG SPG BPG")
+        print("PLAYER_ID TEAM_ID UNIFORM_NUM LAST_NAME FIRST_NAME MPG PPG RPG APG SPG BPG")
         for row in results:
-            print(f"{row.player_id} {row.team_id} {row.jersey_num} {row.last_name} {row.first_name} {row.mpg} {row.ppg} {row.rpg} {row.apg} {row.spg} {row.bpg}")
+            print(f"{row.player_id} {row.team_id} {row.uniform_num} {row.last_name} {row.first_name} {row.mpg} {row.ppg} {row.rpg} {row.apg} {row.spg} {row.bpg}")
 
     except Exception as e:
         print(e)
@@ -47,32 +47,33 @@ def query1(conn,
 
 def query2(conn, team_color):
     try:
-        # Create a session
-        Session = sessionmaker(bind=conn)
+        # Create database connection and create a session
+        engine = create_engine(conn)
+        Session = sessionmaker(bind=engine)
         session = Session()
 
-        # Execute SQL query
-        result = session.query(Team.name).\
-            join(Team.color).\
-            filter_by(name=team_color)
+        # Create a base query object
+        query = session.query(Team.name).join(Team.color)
+
+        # Apply filter to the query object based on function arguments
+        query = query.filter(Color.name == team_color)
+
+        # Execute the query and retrieve the results
+        results = query.all()
 
         # Print out result
         print("NAME")
-        for row in result:
+        for row in results:
             print(row[0])
 
-        # Commit the transaction
-        session.commit()
-
     except Exception as e:
-        # Rollback the transaction in case of error
-        session.rollback()
-        print("Failed to query team by color.")
         print(e)
+        print("Failed to query team by color.")
 
     finally:
         # Close the session
         session.close()
+
 
 def query3(conn, team_name):
     try:
@@ -125,27 +126,30 @@ def query4(conn, team_state, team_color):
 
 def query5(conn, num_wins):
     try:
-        # Create SQLAlchemy engine and session
+        # Create database connection and create a session
         engine = create_engine(conn)
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        # Define ORM query
+        # Create a base query object
         query = session.query(Player.first_name, Player.last_name, Team.name, Team.wins)\
-            .join(Player.team)\
-            .options(joinedload(Player.team))
+            .join(Player.team)
 
-        # Apply filter to query
+        # Apply filter to the query object based on function arguments
         query = query.filter(Team.wins > num_wins)
 
-        # Execute the query and fetch the results
-        result = query.all()
+        # Execute the query and retrieve the results
+        results = query.all()
 
         # Print out result
         print("FIRST_NAME LAST_NAME TEAM_NAME WINS")
-        for row in result:
-            print(row[0], row[1], row[2], row[3])
+        for row in results:
+            print(f"{row.first_name} {row.last_name} {row.name} {row.wins}")
 
     except Exception as e:
         print(e)
         print("Failed to query players and teams by number of wins.")
+
+    finally:
+        # Close the session
+        session.close()
