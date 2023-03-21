@@ -149,8 +149,8 @@ void query1(connection *C,
                  << c[6].as<int>() << " "
                  << c[7].as<int>() << " "
                  << c[8].as<int>() << " "
-                 << c[9].as<double>() << " "
-                 << c[10].as<double>() << " " << endl;
+                 << fixed << setprecision(1) << c[9].as<double>() << " "
+                 << fixed << setprecision(1) << c[10].as<double>() << " " << endl;
         }
 
     } catch (const exception &e) {
