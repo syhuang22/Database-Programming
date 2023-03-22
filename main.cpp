@@ -255,9 +255,7 @@ int main (int argc, char *argv[])
   loadTeamData(C);
   loadPlayerData(C);
 
-  cout << "testing query" <<endl;
   exercise(C);
-  cout << "end of test" <<endl;
 
 
   //Close database connection
